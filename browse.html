@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
   <title>Browse — Creaview</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -32,25 +31,83 @@
   <a class="nav-cta" href="submit.html">+ Create Portfolio</a>
 </header>
 
-<main class="browse-page">
-  <section class="browse-hero">
+<main class="browse-app">
+
+  <section class="browse-top">
     <div>
       <div class="eyebrow">
         <span class="eyebrow-dot"></span>
         <span>Discover portfolios</span>
       </div>
 
-      <h1>Find the right creator.</h1>
+      <h1>Find the right <span>creator.</span></h1>
       <p>Search portfolios by name, role, skill, style, or platform.</p>
     </div>
+
+    <form class="hero-search">
+      <span>⌕</span>
+      <input type="text" placeholder="Search portfolios..." />
+      <button type="submit">✦ Search</button>
+    </form>
   </section>
 
-  <section class="browse-search">
-    <input id="searchInput" type="text" placeholder="Search portfolios..." />
-    <button id="searchButton" class="button button-primary">Search</button>
+  <section class="browse-console">
+
+    <aside class="filter-panel">
+      <p class="filter-title">Filters</p>
+
+      <div class="filter-block">
+        <h3>Category</h3>
+        <button class="filter-active">▦ All Categories <span>0</span></button>
+        <button>✦ Design <span>0</span></button>
+        <button>&lt;/&gt; Development <span>0</span></button>
+        <button>▣ Branding <span>0</span></button>
+        <button>◉ Photography <span>0</span></button>
+        <button>◇ 3D / Motion <span>0</span></button>
+      </div>
+
+      <div class="filter-block">
+        <h3>Availability</h3>
+        <label><input type="radio" checked /> All</label>
+        <label><input type="radio" /> Available</label>
+        <label><input type="radio" /> Not available</label>
+      </div>
+
+      <div class="filter-block">
+        <h3>Experience</h3>
+        <label><input type="checkbox" checked /> All levels</label>
+        <label><input type="checkbox" /> Entry</label>
+        <label><input type="checkbox" /> Mid</label>
+        <label><input type="checkbox" /> Senior</label>
+      </div>
+    </aside>
+
+    <section class="results-panel">
+      <div class="results-toolbar">
+        <div class="tabs">
+          <button class="tab active">▦ All</button>
+          <button class="tab">↗ Trending</button>
+          <button class="tab">◷ New</button>
+          <button class="tab">♡ Following</button>
+        </div>
+
+        <div class="sorts">
+          <button>Most Relevant⌄</button>
+          <button class="icon-btn active">▦</button>
+          <button class="icon-btn">☷</button>
+        </div>
+      </div>
+
+      <div class="empty-gallery">
+        <div class="empty-orb">✦</div>
+        <h2>No portfolios yet</h2>
+        <p>When portfolios are submitted, they will appear here.</p>
+        <a href="submit.html">Create the first portfolio</a>
+      </div>
+    </section>
+
   </section>
 
-  <section id="portfolioGrid" class="browse-grid"></section>
 </main>
 
 <script src="js/app.js"></script>
