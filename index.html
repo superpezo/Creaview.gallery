@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>Creaview — Discover Talent</title>
+  <title>Creaview — Portfolio Discovery</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -12,10 +12,15 @@
 
   <link rel="stylesheet" href="css/main.css" />
 </head>
-<body>
+
+<body class="home-body">
 
   <div class="noise"></div>
   <div class="cursor-light"></div>
+
+  <div class="ambient ambient-one"></div>
+  <div class="ambient ambient-two"></div>
+  <div class="ambient ambient-three"></div>
 
   <header class="site-nav">
     <a href="index.html" class="nav-brand">
@@ -32,46 +37,57 @@
     <a href="submit.html" class="nav-cta">Create Portfolio</a>
   </header>
 
-  <main class="home-hero page-transition">
-    <div class="hero-orb one"></div>
-    <div class="hero-orb two"></div>
+  <main class="cinematic-home">
 
-    <section class="hero-content">
-      <div class="eyebrow reveal">
-        <span class="eyebrow-dot"></span>
-        <span>Open Portfolio Platform</span>
+    <section class="cinematic-hero">
+
+      <div class="hero-copy">
+        <div class="eyebrow reveal">
+          <span class="eyebrow-dot"></span>
+          <span>Portfolio discovery, redesigned</span>
+        </div>
+
+        <h1 class="cinematic-title reveal reveal-delay-1">
+          A sharper way to present creative work.
+        </h1>
+
+        <p class="cinematic-lead reveal reveal-delay-2">
+          Creaview helps people build, discover, and share clean interactive portfolios without the clutter.
+        </p>
+
+        <div class="hero-actions reveal reveal-delay-3">
+          <a href="browse.html" class="button button-primary">Browse Portfolios</a>
+          <a href="submit.html" class="button button-secondary">Create Portfolio</a>
+        </div>
       </div>
 
-      <h1 class="hero-title reveal reveal-delay-1">
-        Your work deserves a better first impression.
-      </h1>
+      <div class="portfolio-stage reveal reveal-delay-4">
+        <div class="stage-card stage-main">
+          <div class="stage-image"></div>
+          <div class="stage-info">
+            <span>Featured profile</span>
+            <h2>Work, skills, links, and visuals in one clean page.</h2>
+          </div>
+        </div>
 
-      <p class="lead reveal reveal-delay-2">
-        Creaview is a modern portfolio gallery where creators present their work through beautiful interactive profiles.
-      </p>
+        <div class="floating-panel panel-left">
+          <span>Search</span>
+          <strong>Role, skill, style</strong>
+        </div>
 
-      <div class="hero-actions reveal reveal-delay-3">
-        <a href="browse.html" class="button button-primary">Browse Portfolios</a>
-        <a href="submit.html" class="button button-secondary">Create Portfolio</a>
+        <div class="floating-panel panel-right">
+          <span>Share</span>
+          <strong>One public link</strong>
+        </div>
+
+        <div class="floating-panel panel-bottom">
+          <span>Builder</span>
+          <strong>Live profile preview</strong>
+        </div>
       </div>
+
     </section>
 
-    <section class="hero-showcase" aria-label="Creaview features">
-      <article class="mini-card">
-        <span>DISCOVER</span>
-        <strong>Browse portfolios</strong>
-      </article>
-
-      <article class="mini-card">
-        <span>BUILD</span>
-        <strong>Create a profile</strong>
-      </article>
-
-      <article class="mini-card">
-        <span>SHARE</span>
-        <strong>Send your link</strong>
-      </article>
-    </section>
   </main>
 
   <script src="js/app.js"></script>
