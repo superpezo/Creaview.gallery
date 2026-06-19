@@ -11,78 +11,112 @@ if (cursorLight) {
     mouseY = event.clientY;
   });
 
-  function animateCursorGlow() {
+  function animateGlow() {
     glowX += (mouseX - glowX) * 0.08;
     glowY += (mouseY - glowY) * 0.08;
 
     cursorLight.style.left = `${glowX}px`;
     cursorLight.style.top = `${glowY}px`;
 
-    requestAnimationFrame(animateCursorGlow);
+    requestAnimationFrame(animateGlow);
   }
 
-  animateCursorGlow();
+  animateGlow();
 }
 
 const nav = document.querySelector(".site-nav");
 
 window.addEventListener("scroll", () => {
   if (!nav) return;
+  nav.classList.toggle("nav-scrolled", window.scrollY > 20);
+});
 
-  if (window.scrollY > 20) {
-    nav.classList.add("nav-scrolled");
-  } else {
-    nav.classList.remove("nav-scrolled");
+const portfolios = [
+  {
+    id: "sample-product-designer",
+    name: "Sample Designer",
+    role: "Product Designer",
+    description: "A sample portfolio card. Replace this with real submissions later.",
+    search: "designer product ui ux portfolio creative"
+  },
+  {
+    id: "sample-developer",
+    name: "Sample Developer",
+    role: "Frontend Developer",
+    description: "A sample developer profile for testing search and card layout.",
+    search: "developer frontend javascript website coding"
+  },
+  {
+    id: "sample-community",
+    name: "Sample Manager",
+    role: "Community Manager",
+    description: "A sample community profile for Discord, moderation and support work.",
+    search: "discord community manager moderation support"
   }
-});
+];
 
-const magneticItems = document.querySelectorAll(".button, .nav-cta, .mini-card");
+const grid = document.getElementById("portfolioGrid");
+const searchInput = document.getElementById("searchInput");
+const searchButton = document.getElementById("searchButton");
 
-magneticItems.forEach(item => {
-  item.addEventListener("mousemove", event => {
-    const rect = item.getBoundingClientRect();
-    const x = event.clientX - rect.left - rect.width / 2;
-    const y = event.clientY - rect.top - rect.height / 2;
+function renderPortfolios(items) {
+  if (!grid) return;
 
-    item.style.transform = `translate(${x * 0.08}px, ${y * 0.08}px)`;
+  if (items.length === 0) {
+    grid.innerHTML = `
+      <div class="empty-state">
+        No portfolios found.
+      </div>
+    `;
+    return;
+  }
+
+  grid.innerHTML = items.map(item => `
+    <article class="browse-card" onclick="window.location.href='profile.html?id=${item.id}'">
+      <div class="browse-card-image"></div>
+      <div class="browse-card-content">
+        <h3>${item.name}</h3>
+        <p>${item.role}</p>
+        <p>${item.description}</p>
+      </div>
+    </article>
+  `).join("");
+}
+
+function runSearch() {
+  if (!searchInput) return;
+
+  const query = searchInput.value.trim().toLowerCase();
+
+  if (!query) {
+    renderPortfolios(portfolios);
+    return;
+  }
+
+  const filtered = portfolios.filter(item => {
+    return (
+      item.name.toLowerCase().includes(query) ||
+      item.role.toLowerCase().includes(query) ||
+      item.description.toLowerCase().includes(query) ||
+      item.search.toLowerCase().includes(query)
+    );
   });
 
-  item.addEventListener("mouseleave", () => {
-    item.style.transform = "";
-  });
-});
+  renderPortfolios(filtered);
+}
 
-const revealItems = document.querySelectorAll(".reveal");
+if (grid) {
+  renderPortfolios(portfolios);
+}
 
-const revealObserver = new IntersectionObserver(entries => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add("revealed");
+if (searchButton) {
+  searchButton.addEventListener("click", runSearch);
+}
+
+if (searchInput) {
+  searchInput.addEventListener("keydown", event => {
+    if (event.key === "Enter") {
+      runSearch();
     }
   });
-}, {
-  threshold: 0.2
-});
-
-revealItems.forEach(item => {
-  revealObserver.observe(item);
-});
-
-const cards = document.querySelectorAll(".portfolio-card");
-
-cards.forEach(card => {
-  card.addEventListener("mousemove", event => {
-    const rect = card.getBoundingClientRect();
-    const x = event.clientX - rect.left;
-    const y = event.clientY - rect.top;
-
-    const rotateY = ((x / rect.width) - 0.5) * 10;
-    const rotateX = ((y / rect.height) - 0.5) * -10;
-
-    card.style.transform = `perspective(900px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-8px)`;
-  });
-
-  card.addEventListener("mouseleave", () => {
-    card.style.transform = "";
-  });
-});
+}
