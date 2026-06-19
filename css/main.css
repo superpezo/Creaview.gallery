@@ -939,3 +939,12 @@ textarea.form-control {
     margin-left: 12px;
   }
 }
+.nav-scrolled {
+  top: 12px;
+  width: min(980px, calc(100% - 32px));
+  background: rgba(10, 10, 17, 0.86);
+}
+
+.revealed {
+  opacity: 1;
+}
