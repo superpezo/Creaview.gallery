@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
   <title>Creaview — Portfolio Discovery</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -12,84 +11,167 @@
 
   <link rel="stylesheet" href="css/main.css" />
 </head>
+<body>
 
-<body class="home-body">
+<div class="noise"></div>
+<div class="cursor-light"></div>
 
-  <div class="noise"></div>
-  <div class="cursor-light"></div>
+<header class="site-nav">
+  <a href="index.html" class="nav-brand">
+    <span class="nav-brand-mark">✦</span>
+    <span>Creaview</span>
+  </a>
 
-  <div class="ambient ambient-one"></div>
-  <div class="ambient ambient-two"></div>
-  <div class="ambient ambient-three"></div>
+  <nav class="nav-links">
+    <a class="nav-link active" href="index.html">Home</a>
+    <a class="nav-link" href="browse.html">Browse</a>
+    <a class="nav-link" href="submit.html">Create</a>
+  </nav>
 
-  <header class="site-nav">
-    <a href="index.html" class="nav-brand">
-      <span class="nav-brand-mark">✦</span>
-      <span>Creaview</span>
-    </a>
+  <a class="nav-cta" href="submit.html">+ Create Portfolio</a>
+</header>
 
-    <nav class="nav-links">
-      <a class="nav-link active" href="index.html">Home</a>
-      <a class="nav-link" href="browse.html">Browse</a>
-      <a class="nav-link" href="submit.html">Create</a>
-    </nav>
+<main class="home-screen">
 
-    <a href="submit.html" class="nav-cta">Create Portfolio</a>
-  </header>
+  <section class="hero-grid">
 
-  <main class="cinematic-home">
-
-    <section class="cinematic-hero">
-
-      <div class="hero-copy">
-        <div class="eyebrow reveal">
-          <span class="eyebrow-dot"></span>
-          <span>Portfolio discovery, redesigned</span>
-        </div>
-
-        <h1 class="cinematic-title reveal reveal-delay-1">
-          A sharper way to present creative work.
-        </h1>
-
-        <p class="cinematic-lead reveal reveal-delay-2">
-          Creaview helps people build, discover, and share clean interactive portfolios without the clutter.
-        </p>
-
-        <div class="hero-actions reveal reveal-delay-3">
-          <a href="browse.html" class="button button-primary">Browse Portfolios</a>
-          <a href="submit.html" class="button button-secondary">Create Portfolio</a>
-        </div>
+    <div class="hero-left">
+      <div class="eyebrow">
+        <span class="eyebrow-dot"></span>
+        <span>The modern portfolio platform</span>
       </div>
 
-      <div class="portfolio-stage reveal reveal-delay-4">
-        <div class="stage-card stage-main">
-          <div class="stage-image"></div>
-          <div class="stage-info">
-            <span>Featured profile</span>
-            <h2>Work, skills, links, and visuals in one clean page.</h2>
+      <h1>
+        Show your work.<br>
+        <span>Get discovered.</span>
+      </h1>
+
+      <p>
+        Creaview helps creators build beautiful portfolios, get discovered by the right people, and grow their online presence.
+      </p>
+
+      <div class="hero-actions">
+        <a href="browse.html" class="button button-primary">Browse Portfolios →</a>
+        <a href="submit.html" class="button button-secondary">Create Your Portfolio ✦</a>
+      </div>
+
+      <div class="stats">
+        <div><strong>10K+</strong><span>Portfolios</span></div>
+        <div><strong>5K+</strong><span>Creators</span></div>
+        <div><strong>50+</strong><span>Categories</span></div>
+        <div><strong>100%</strong><span>Free to use</span></div>
+      </div>
+    </div>
+
+    <div class="hero-right">
+      <div class="main-preview">
+        <div class="preview-top">
+          <span></span><span></span>
+        </div>
+
+        <div class="profile-preview">
+          <div class="avatar"></div>
+          <div>
+            <h2>Olivia Rhye <b>●</b></h2>
+            <p>Product Designer · San Francisco</p>
           </div>
         </div>
 
-        <div class="floating-panel panel-left">
-          <span>Search</span>
-          <strong>Role, skill, style</strong>
+        <p class="preview-bio">
+          I design digital experiences that are beautiful, functional, and human.
+        </p>
+
+        <div class="preview-tags">
+          <span>UI/UX</span>
+          <span>Product Design</span>
+          <span>Web Design</span>
         </div>
 
-        <div class="floating-panel panel-right">
-          <span>Share</span>
-          <strong>One public link</strong>
-        </div>
-
-        <div class="floating-panel panel-bottom">
-          <span>Builder</span>
-          <strong>Live profile preview</strong>
+        <div class="project-card">
+          <span>Featured Project</span>
+          <h3>SaaS Dashboard</h3>
         </div>
       </div>
 
-    </section>
+      <div class="side-card side-left top">
+        <span>▣</span>
+        <h3>Live Preview</h3>
+        <p>See changes in real-time</p>
+      </div>
 
-  </main>
+      <div class="side-card side-left bottom">
+        <span>✣</span>
+        <h3>Customizable</h3>
+        <p>Make it truly yours</p>
+      </div>
 
-  <script src="js/app.js"></script>
+      <div class="side-card side-right top">
+        <span>↗</span>
+        <h3>Share Anywhere</h3>
+        <p>One link to share all</p>
+      </div>
+
+      <div class="side-card side-right bottom">
+        <span>⌁</span>
+        <h3>Analytics</h3>
+        <p>Track views & engagement</p>
+      </div>
+    </div>
+
+  </section>
+
+  <section class="trusted">
+    <span>TRUSTED BY CREATORS AT</span>
+    <div>
+      <p>Linear</p>
+      <p>Framer</p>
+      <p>Notion</p>
+      <p>Vercel</p>
+      <p>Arc</p>
+      <p>Figma</p>
+    </div>
+  </section>
+
+  <section class="trending">
+    <div class="section-head">
+      <div>
+        <span class="mini-icon">↗</span>
+        <p>Discover amazing portfolios</p>
+        <h2>Trending this week</h2>
+      </div>
+
+      <a href="browse.html" class="small-button">View all →</a>
+    </div>
+
+    <div class="trend-row">
+      <article class="trend-card one">
+        <span>Product Designer</span>
+        <div>
+          <h3>Alex Chen</h3>
+          <p>@alexchen · 2.4K</p>
+        </div>
+      </article>
+
+      <article class="trend-card two">
+        <span>Developer</span>
+        <div>
+          <h3>Daniel Kim</h3>
+          <p>@kimdev · 1.8K</p>
+        </div>
+      </article>
+
+      <article class="trend-card three">
+        <span>Brand Designer</span>
+        <div>
+          <h3>Maya Williams</h3>
+          <p>@mayaw · 2.9K</p>
+        </div>
+      </article>
+    </div>
+  </section>
+
+</main>
+
+<script src="js/app.js"></script>
 </body>
 </html>
