@@ -1,1 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Create — Creaview</title>
 
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="css/main.css" />
+</head>
+<body>
+
+<div class="noise"></div>
+<div class="cursor-light"></div>
+
+<header class="site-nav">
+  <a href="index.html" class="nav-brand">
+    <span class="nav-brand-mark">✦</span>
+    <span>Creaview</span>
+  </a>
+
+  <nav class="nav-links">
+    <a class="nav-link" href="index.html">Home</a>
+    <a class="nav-link" href="browse.html">Browse</a>
+    <a class="nav-link active" href="submit.html">Create</a>
+  </nav>
+
+  <a class="nav-cta" href="submit.html">+ Create Portfolio</a>
+</header>
+
+<main class="creator-app">
+
+  <section class="creator-head">
+    <div>
+      <div class="eyebrow">
+        <span class="eyebrow-dot"></span>
+        <span>Portfolio builder</span>
+      </div>
+
+      <h1>Create your portfolio card.</h1>
+      <p>Fill in your details and preview how your profile will appear on Creaview.</p>
+    </div>
+  </section>
+
+  <section class="creator-layout">
+
+    <form id="portfolioForm" class="creator-form">
+      <div class="form-section">
+        <h2>Profile</h2>
+
+        <label>
+          Display name
+          <input id="creatorName" type="text" placeholder="Example: Jordan Lee" />
+        </label>
+
+        <label>
+          Role / title
+          <input id="creatorRole" type="text" placeholder="Example: UI Designer" />
+        </label>
+
+        <label>
+          Location
+          <input id="creatorLocation" type="text" placeholder="Example: Remote" />
+        </label>
+
+        <label>
+          Short bio
+          <textarea id="creatorBio" placeholder="Write a short, professional description..."></textarea>
+        </label>
+      </div>
+
+      <div class="form-section">
+        <h2>Portfolio Card</h2>
+
+        <label>
+          Banner image URL
+          <input id="creatorImage" type="text" placeholder="Paste an image URL" />
+        </label>
+
+        <label>
+          Tags / skills
+          <input id="creatorTags" type="text" placeholder="design, discord, editing, developer..." />
+        </label>
+
+        <label>
+          Contact / portfolio link
+          <input id="creatorLink" type="text" placeholder="https://..." />
+        </label>
+      </div>
+
+      <div class="form-section">
+        <h2>Style</h2>
+
+        <div class="theme-picker">
+          <button type="button" class="theme-dot active" data-theme="purple"></button>
+          <button type="button" class="theme-dot blue" data-theme="blue"></button>
+          <button type="button" class="theme-dot pink" data-theme="pink"></button>
+          <button type="button" class="theme-dot green" data-theme="green"></button>
+        </div>
+      </div>
+
+      <button type="submit" class="button button-primary">Publish Portfolio</button>
+    </form>
+
+    <aside class="creator-preview">
+      <p class="preview-label">Live Preview</p>
+
+      <article id="previewCard" class="portfolio-create-card theme-purple">
+        <div id="previewImage" class="portfolio-create-image"></div>
+
+        <div class="portfolio-create-body">
+          <div class="preview-avatar">✦</div>
+
+          <h3 id="previewName">Your Name</h3>
+          <p id="previewRole">Your role will appear here</p>
+          <p id="previewBio">Your short bio will appear here while you type.</p>
+
+          <div id="previewTags" class="preview-tags">
+            <span>skill</span>
+            <span>portfolio</span>
+          </div>
+
+          <a id="previewLink" href="#" class="preview-link">Open link →</a>
+        </div>
+      </article>
+
+      <div class="preview-note">
+        This saves to your browser for now. Later, we can connect Firebase/Supabase so everyone can see submitted portfolios.
+      </div>
+    </aside>
+
+  </section>
+
+</main>
+
+<script src="js/app.js"></script>
+</body>
+</html>
