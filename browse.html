@@ -14,55 +14,45 @@
 </head>
 <body>
 
-  <div class="noise"></div>
-  <div class="cursor-light"></div>
+<div class="noise"></div>
+<div class="cursor-light"></div>
 
-  <header class="site-nav">
-    <a href="index.html" class="nav-brand">
-      <span class="nav-brand-mark">✦</span>
-      <span>Creaview</span>
-    </a>
+<header class="site-nav">
+  <a href="index.html" class="nav-brand">
+    <span class="nav-brand-mark">✦</span>
+    <span>Creaview</span>
+  </a>
 
-    <nav class="nav-links">
-      <a class="nav-link" href="index.html">Home</a>
-      <a class="nav-link active" href="browse.html">Browse</a>
-      <a class="nav-link" href="submit.html">Create</a>
-    </nav>
+  <nav class="nav-links">
+    <a class="nav-link" href="index.html">Home</a>
+    <a class="nav-link active" href="browse.html">Browse</a>
+    <a class="nav-link" href="submit.html">Create</a>
+  </nav>
 
-    <a href="submit.html" class="nav-cta">Create Portfolio</a>
-  </header>
+  <a class="nav-cta" href="submit.html">+ Create Portfolio</a>
+</header>
 
-  <main class="page-main page-shell page-transition">
-    <section class="browse-header reveal">
+<main class="browse-page">
+  <section class="browse-hero">
+    <div>
       <div class="eyebrow">
         <span class="eyebrow-dot"></span>
-        <span>Browse Gallery</span>
+        <span>Discover portfolios</span>
       </div>
 
-      <h1 class="page-title">Find portfolios that match what you need.</h1>
+      <h1>Find the right creator.</h1>
+      <p>Search portfolios by name, role, skill, style, or platform.</p>
+    </div>
+  </section>
 
-      <p class="lead">
-        Search by name, role, style, skill, platform, or type of work.
-      </p>
-    </section>
+  <section class="browse-search">
+    <input id="searchInput" type="text" placeholder="Search portfolios..." />
+    <button id="searchButton" class="button button-primary">Search</button>
+  </section>
 
-    <section class="search-panel reveal reveal-delay-1">
-      <input
-        id="searchInput"
-        class="search-input"
-        type="text"
-        placeholder="Search portfolios..."
-        autocomplete="off"
-      />
+  <section id="portfolioGrid" class="browse-grid"></section>
+</main>
 
-      <button id="clearSearch" class="button button-secondary button-small" type="button">
-        Clear
-      </button>
-    </section>
-
-    <section id="portfolioGrid" class="portfolio-grid section-tight"></section>
-  </main>
-
-  <script src="js/app.js"></script>
+<script src="js/app.js"></script>
 </body>
 </html>
