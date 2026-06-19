@@ -1,1 +1,17 @@
-[]
+[
+  {
+    "id": "sample-creator",
+    "name": "Sample Creator",
+    "role": "Portfolio Example",
+    "location": "Remote",
+    "status": "Available",
+    "bio": "This is a placeholder profile. You can remove it once real portfolios are added.",
+    "tags": ["design", "portfolio", "creative"],
+    "image": "",
+    "theme": "purple",
+    "links": {
+      "website": "#",
+      "contact": "#"
+    }
+  }
+]
