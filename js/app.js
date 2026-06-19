@@ -1,23 +1,21 @@
 const cursorLight = document.querySelector(".cursor-light");
 
 if (cursorLight) {
-  let mouseX = window.innerWidth / 2;
-  let mouseY = window.innerHeight / 2;
+  let mouseX = innerWidth / 2;
+  let mouseY = innerHeight / 2;
   let glowX = mouseX;
   let glowY = mouseY;
 
-  window.addEventListener("mousemove", event => {
-    mouseX = event.clientX;
-    mouseY = event.clientY;
+  addEventListener("mousemove", e => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
   });
 
   function animateGlow() {
     glowX += (mouseX - glowX) * 0.08;
     glowY += (mouseY - glowY) * 0.08;
-
     cursorLight.style.left = `${glowX}px`;
     cursorLight.style.top = `${glowY}px`;
-
     requestAnimationFrame(animateGlow);
   }
 
@@ -26,90 +24,94 @@ if (cursorLight) {
 
 const nav = document.querySelector(".site-nav");
 
-window.addEventListener("scroll", () => {
-  if (!nav) return;
-  nav.classList.toggle("nav-scrolled", window.scrollY > 20);
+addEventListener("scroll", () => {
+  if (nav) nav.classList.toggle("nav-scrolled", scrollY > 20);
 });
 
-/* Browse search */
-
-const grid = document.getElementById("portfolioGrid");
-const searchInput = document.getElementById("searchInput");
-const searchButton = document.getElementById("searchButton");
-
-function getPortfolios(){
+function getPortfolios() {
   return JSON.parse(localStorage.getItem("creaviewPortfolios")) || [];
 }
 
-function renderBrowse(items){
-  if(!grid) return;
+function savePortfolios(items) {
+  localStorage.setItem("creaviewPortfolios", JSON.stringify(items));
+}
 
-  if(items.length === 0){
-    grid.innerHTML = `
-      <div class="empty-state">
-        No portfolios found yet.
+function escapeText(value) {
+  return String(value || "").replace(/[&<>"']/g, char => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#039;"
+  }[char]));
+}
+
+/* Browse */
+
+const resultsArea = document.getElementById("resultsArea");
+const portfolioCount = document.getElementById("portfolioCount");
+const searchForm = document.getElementById("searchForm");
+const searchInput = document.getElementById("searchInput");
+
+function renderBrowse(items) {
+  if (!resultsArea) return;
+
+  if (portfolioCount) portfolioCount.textContent = items.length;
+
+  if (!items.length) {
+    resultsArea.innerHTML = `
+      <div class="empty-gallery">
+        <div class="empty-orb">✦</div>
+        <h2>No portfolios yet</h2>
+        <p>When portfolios are submitted, they will appear here.</p>
+        <a href="submit.html">Create the first portfolio</a>
       </div>
     `;
     return;
   }
 
-  grid.innerHTML = items.map(item => `
-    <article class="browse-card" onclick="window.location.href='profile.html?id=${item.id}'">
-      <div class="browse-card-image" style="${item.image ? `background-image:url('${item.image}');background-size:cover;background-position:center;` : ""}"></div>
-      <div class="browse-card-content">
-        <h3>${item.name}</h3>
-        <p>${item.role}</p>
-        <p>${item.bio}</p>
-      </div>
-    </article>
-  `).join("");
+  resultsArea.innerHTML = `
+    <div class="created-grid">
+      ${items.map(item => `
+        <article class="created-card" onclick="location.href='profile.html?id=${item.id}'">
+          <div class="created-card-image" style="${item.image ? `background-image:url('${escapeText(item.image)}')` : ""}"></div>
+          <div class="created-card-body">
+            <h3>${escapeText(item.name)}</h3>
+            <p>${escapeText(item.role)}</p>
+            <span>${escapeText(item.tags || "Portfolio")}</span>
+          </div>
+        </article>
+      `).join("")}
+    </div>
+  `;
 }
 
-function runSearch(){
-  const portfolios = getPortfolios();
+if (resultsArea) {
+  renderBrowse(getPortfolios());
+}
 
-  if(!searchInput){
-    renderBrowse(portfolios);
-    return;
-  }
+if (searchForm) {
+  searchForm.addEventListener("submit", e => {
+    e.preventDefault();
 
-  const query = searchInput.value.toLowerCase().trim();
+    const query = searchInput.value.trim().toLowerCase();
+    const all = getPortfolios();
 
-  if(!query){
-    renderBrowse(portfolios);
-    return;
-  }
+    if (!query) {
+      renderBrowse(all);
+      return;
+    }
 
-  const filtered = portfolios.filter(item => {
-    return (
+    renderBrowse(all.filter(item =>
       item.name.toLowerCase().includes(query) ||
       item.role.toLowerCase().includes(query) ||
       item.bio.toLowerCase().includes(query) ||
       item.tags.toLowerCase().includes(query)
-    );
-  });
-
-  renderBrowse(filtered);
-}
-
-if(grid){
-  renderBrowse(getPortfolios());
-}
-
-if(searchButton){
-  searchButton.addEventListener("click", runSearch);
-}
-
-if(searchInput){
-  searchInput.addEventListener("keydown", event => {
-    if(event.key === "Enter"){
-      event.preventDefault();
-      runSearch();
-    }
+    ));
   });
 }
 
-/* Portfolio builder */
+/* Builder */
 
 const form = document.getElementById("portfolioForm");
 
@@ -131,14 +133,14 @@ const previewCard = document.getElementById("previewCard");
 
 let currentTheme = "purple";
 
-function updatePreview(){
-  if(!previewCard) return;
+function updatePreview() {
+  if (!previewCard) return;
 
   previewName.textContent = creatorName.value || "Your Name";
   previewRole.textContent = creatorRole.value || "Your role will appear here";
   previewBio.textContent = creatorBio.value || "Your short bio will appear here while you type.";
 
-  if(creatorImage.value.trim()){
+  if (creatorImage.value.trim()) {
     previewImage.style.backgroundImage = `url('${creatorImage.value.trim()}')`;
     previewImage.style.backgroundSize = "cover";
     previewImage.style.backgroundPosition = "center";
@@ -146,13 +148,10 @@ function updatePreview(){
     previewImage.style.backgroundImage = "";
   }
 
-  const tags = creatorTags.value
-    .split(",")
-    .map(tag => tag.trim())
-    .filter(Boolean);
+  const tags = creatorTags.value.split(",").map(t => t.trim()).filter(Boolean);
 
   previewTags.innerHTML = tags.length
-    ? tags.map(tag => `<span>${tag}</span>`).join("")
+    ? tags.map(tag => `<span>${escapeText(tag)}</span>`).join("")
     : `<span>skill</span><span>portfolio</span>`;
 
   previewLink.href = creatorLink.value || "#";
@@ -167,7 +166,7 @@ function updatePreview(){
   creatorTags,
   creatorLink
 ].forEach(input => {
-  if(input) input.addEventListener("input", updatePreview);
+  if (input) input.addEventListener("input", updatePreview);
 });
 
 document.querySelectorAll(".theme-dot").forEach(button => {
@@ -180,27 +179,83 @@ document.querySelectorAll(".theme-dot").forEach(button => {
   });
 });
 
-if(form){
-  form.addEventListener("submit", event => {
-    event.preventDefault();
+if (form) {
+  form.addEventListener("keydown", e => {
+    if (e.key === "Enter" && e.target.tagName !== "TEXTAREA") {
+      e.preventDefault();
+    }
+  });
+
+  form.addEventListener("submit", e => {
+    e.preventDefault();
 
     const portfolio = {
-      id: (creatorName.value || "portfolio").toLowerCase().replaceAll(" ","-") + "-" + Date.now(),
-      name: creatorName.value || "Untitled Portfolio",
-      role: creatorRole.value || "Creator",
-      location: creatorLocation.value || "",
-      bio: creatorBio.value || "",
-      image: creatorImage.value || "",
-      tags: creatorTags.value || "",
-      link: creatorLink.value || "#",
-      theme: currentTheme
+      id: crypto.randomUUID ? crypto.randomUUID() : `portfolio-${Date.now()}`,
+      name: creatorName.value.trim() || "Untitled Portfolio",
+      role: creatorRole.value.trim() || "Creator",
+      location: creatorLocation.value.trim(),
+      bio: creatorBio.value.trim(),
+      image: creatorImage.value.trim(),
+      tags: creatorTags.value.trim(),
+      link: creatorLink.value.trim() || "#",
+      theme: currentTheme,
+      createdAt: Date.now()
     };
 
     const portfolios = getPortfolios();
     portfolios.unshift(portfolio);
+    savePortfolios(portfolios);
 
-    localStorage.setItem("creaviewPortfolios", JSON.stringify(portfolios));
+    document.body.classList.add("leaving");
 
-    window.location.href = `profile.html?id=${portfolio.id}`;
+    setTimeout(() => {
+      location.href = `profile.html?id=${portfolio.id}`;
+    }, 450);
   });
+}
+
+/* Profile */
+
+const profileRoot = document.getElementById("profileRoot");
+
+if (profileRoot) {
+  const params = new URLSearchParams(location.search);
+  const id = params.get("id");
+  const portfolio = getPortfolios().find(item => item.id === id);
+
+  if (!portfolio) {
+    profileRoot.innerHTML = `
+      <section class="profile-empty">
+        <div class="empty-orb">✦</div>
+        <h1>Portfolio not found</h1>
+        <p>This profile does not exist or was removed.</p>
+        <a href="browse.html">Back to Browse</a>
+      </section>
+    `;
+  } else {
+    const tags = portfolio.tags.split(",").map(t => t.trim()).filter(Boolean);
+
+    profileRoot.innerHTML = `
+      <section class="profile-view">
+        <div class="profile-banner" style="${portfolio.image ? `background-image:url('${escapeText(portfolio.image)}')` : ""}"></div>
+
+        <article class="profile-glass">
+          <div class="profile-avatar">✦</div>
+          <p class="profile-kicker">${escapeText(portfolio.location || "Portfolio")}</p>
+          <h1>${escapeText(portfolio.name)}</h1>
+          <h2>${escapeText(portfolio.role)}</h2>
+          <p>${escapeText(portfolio.bio || "No description added.")}</p>
+
+          <div class="profile-tags">
+            ${tags.map(tag => `<span>${escapeText(tag)}</span>`).join("")}
+          </div>
+
+          <div class="profile-actions">
+            <a href="${escapeText(portfolio.link)}" target="_blank">Open Link</a>
+            <button onclick="navigator.clipboard.writeText(location.href)">Copy Profile</button>
+          </div>
+        </article>
+      </section>
+    `;
+  }
 }
