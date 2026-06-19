@@ -31,41 +31,23 @@ window.addEventListener("scroll", () => {
   nav.classList.toggle("nav-scrolled", window.scrollY > 20);
 });
 
-const portfolios = [
-  {
-    id: "sample-product-designer",
-    name: "Sample Designer",
-    role: "Product Designer",
-    description: "A sample portfolio card. Replace this with real submissions later.",
-    search: "designer product ui ux portfolio creative"
-  },
-  {
-    id: "sample-developer",
-    name: "Sample Developer",
-    role: "Frontend Developer",
-    description: "A sample developer profile for testing search and card layout.",
-    search: "developer frontend javascript website coding"
-  },
-  {
-    id: "sample-community",
-    name: "Sample Manager",
-    role: "Community Manager",
-    description: "A sample community profile for Discord, moderation and support work.",
-    search: "discord community manager moderation support"
-  }
-];
+/* Browse search */
 
 const grid = document.getElementById("portfolioGrid");
 const searchInput = document.getElementById("searchInput");
 const searchButton = document.getElementById("searchButton");
 
-function renderPortfolios(items) {
-  if (!grid) return;
+function getPortfolios(){
+  return JSON.parse(localStorage.getItem("creaviewPortfolios")) || [];
+}
 
-  if (items.length === 0) {
+function renderBrowse(items){
+  if(!grid) return;
+
+  if(items.length === 0){
     grid.innerHTML = `
       <div class="empty-state">
-        No portfolios found.
+        No portfolios found yet.
       </div>
     `;
     return;
@@ -73,23 +55,28 @@ function renderPortfolios(items) {
 
   grid.innerHTML = items.map(item => `
     <article class="browse-card" onclick="window.location.href='profile.html?id=${item.id}'">
-      <div class="browse-card-image"></div>
+      <div class="browse-card-image" style="${item.image ? `background-image:url('${item.image}');background-size:cover;background-position:center;` : ""}"></div>
       <div class="browse-card-content">
         <h3>${item.name}</h3>
         <p>${item.role}</p>
-        <p>${item.description}</p>
+        <p>${item.bio}</p>
       </div>
     </article>
   `).join("");
 }
 
-function runSearch() {
-  if (!searchInput) return;
+function runSearch(){
+  const portfolios = getPortfolios();
 
-  const query = searchInput.value.trim().toLowerCase();
+  if(!searchInput){
+    renderBrowse(portfolios);
+    return;
+  }
 
-  if (!query) {
-    renderPortfolios(portfolios);
+  const query = searchInput.value.toLowerCase().trim();
+
+  if(!query){
+    renderBrowse(portfolios);
     return;
   }
 
@@ -97,26 +84,123 @@ function runSearch() {
     return (
       item.name.toLowerCase().includes(query) ||
       item.role.toLowerCase().includes(query) ||
-      item.description.toLowerCase().includes(query) ||
-      item.search.toLowerCase().includes(query)
+      item.bio.toLowerCase().includes(query) ||
+      item.tags.toLowerCase().includes(query)
     );
   });
 
-  renderPortfolios(filtered);
+  renderBrowse(filtered);
 }
 
-if (grid) {
-  renderPortfolios(portfolios);
+if(grid){
+  renderBrowse(getPortfolios());
 }
 
-if (searchButton) {
+if(searchButton){
   searchButton.addEventListener("click", runSearch);
 }
 
-if (searchInput) {
+if(searchInput){
   searchInput.addEventListener("keydown", event => {
-    if (event.key === "Enter") {
+    if(event.key === "Enter"){
+      event.preventDefault();
       runSearch();
     }
+  });
+}
+
+/* Portfolio builder */
+
+const form = document.getElementById("portfolioForm");
+
+const creatorName = document.getElementById("creatorName");
+const creatorRole = document.getElementById("creatorRole");
+const creatorLocation = document.getElementById("creatorLocation");
+const creatorBio = document.getElementById("creatorBio");
+const creatorImage = document.getElementById("creatorImage");
+const creatorTags = document.getElementById("creatorTags");
+const creatorLink = document.getElementById("creatorLink");
+
+const previewName = document.getElementById("previewName");
+const previewRole = document.getElementById("previewRole");
+const previewBio = document.getElementById("previewBio");
+const previewImage = document.getElementById("previewImage");
+const previewTags = document.getElementById("previewTags");
+const previewLink = document.getElementById("previewLink");
+const previewCard = document.getElementById("previewCard");
+
+let currentTheme = "purple";
+
+function updatePreview(){
+  if(!previewCard) return;
+
+  previewName.textContent = creatorName.value || "Your Name";
+  previewRole.textContent = creatorRole.value || "Your role will appear here";
+  previewBio.textContent = creatorBio.value || "Your short bio will appear here while you type.";
+
+  if(creatorImage.value.trim()){
+    previewImage.style.backgroundImage = `url('${creatorImage.value.trim()}')`;
+    previewImage.style.backgroundSize = "cover";
+    previewImage.style.backgroundPosition = "center";
+  } else {
+    previewImage.style.backgroundImage = "";
+  }
+
+  const tags = creatorTags.value
+    .split(",")
+    .map(tag => tag.trim())
+    .filter(Boolean);
+
+  previewTags.innerHTML = tags.length
+    ? tags.map(tag => `<span>${tag}</span>`).join("")
+    : `<span>skill</span><span>portfolio</span>`;
+
+  previewLink.href = creatorLink.value || "#";
+}
+
+[
+  creatorName,
+  creatorRole,
+  creatorLocation,
+  creatorBio,
+  creatorImage,
+  creatorTags,
+  creatorLink
+].forEach(input => {
+  if(input) input.addEventListener("input", updatePreview);
+});
+
+document.querySelectorAll(".theme-dot").forEach(button => {
+  button.addEventListener("click", () => {
+    document.querySelectorAll(".theme-dot").forEach(dot => dot.classList.remove("active"));
+    button.classList.add("active");
+
+    currentTheme = button.dataset.theme;
+    previewCard.className = `portfolio-create-card theme-${currentTheme}`;
+  });
+});
+
+if(form){
+  form.addEventListener("submit", event => {
+    event.preventDefault();
+
+    const portfolio = {
+      id: (creatorName.value || "portfolio").toLowerCase().replaceAll(" ","-") + "-" + Date.now(),
+      name: creatorName.value || "Untitled Portfolio",
+      role: creatorRole.value || "Creator",
+      location: creatorLocation.value || "",
+      bio: creatorBio.value || "",
+      image: creatorImage.value || "",
+      tags: creatorTags.value || "",
+      link: creatorLink.value || "#",
+      theme: currentTheme
+    };
+
+    const portfolios = getPortfolios();
+    portfolios.unshift(portfolio);
+
+    localStorage.setItem("creaviewPortfolios", JSON.stringify(portfolios));
+
+    window.location.href = `profile.html?id=${portfolio.id}`;
   });
 }
